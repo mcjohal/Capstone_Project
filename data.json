@@ -1,0 +1,18 @@
+{
+    "config": {
+        "name": "Maricruz Johal",
+        "course_number": "CIS 2020",
+        "course_description": "Introduction to Python Programming",
+        "profile_info": "I'm a passionate developer learning Flask and building portfolios."
+    },
+    "projects": [
+        {
+            "id": 1763669463572,
+            "image": "https://drive.google.com/file/d/1CA1207DTvOKBXPNhSlJF-Nf2IOFUEy4s/view?usp=sharing",
+            "title": "The Gym Planning App",
+            "website_url": "https://j28gym.com",
+            "github_url": "https://github.com/mcjohal/Workout_App.git",
+            "description": "This application allows the user plan future workouts. The workout planning application provides the following functionality:\r\n1. Login using YouTube account\r\n2. Add exercises including title, image links, video links, and description.\r\n3. Allows the user to select a calendar date and exercises, including reps, sets and max-weight for that date.\r\n4. Provide a list of upcoming planned workout instances.\r\n5. Provides functionality to flag each planned exercise as completed. \r\n6. Display the number of completed workouts on the dashboard for that user."
+        }
+    ]
+}

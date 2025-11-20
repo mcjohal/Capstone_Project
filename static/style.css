@@ -1,0 +1,3 @@
+body { padding-top: 56px; }
+.card-img-top { transition: transform 0.3s; }
+.card:hover .card-img-top { transform: scale(1.05); }
