@@ -1,2 +1,19 @@
-https://capstone-project-t1c5jw.fly.dev/project/1763669463572
-deployed to fly.io
+Password Instructions
+
+
+Open your terminal/command prompt in the same folder as your Flask project.
+Make sure you’re in the same Python environment where Flask is installed (the one you use to run python app.py).
+Paste these two lines and hit Enter:
+
+python -c "from werkzeug.security import generate_password_hash; 
+print(generate_password_hash('YourStrongPasswordHere', method='pbkdf2:sha256'))"
+
+→ Replace 'YourStrongPasswordHere' with whatever password you actually want (e.g. Capstone2025!Theater).
+
+It will instantly print a long hash that looks like this:
+PASSWORD_HASH=pbkdf2:sha256:1000000$a6UYcfFz8bK9mN1pQ2rS3tU4vW5xY6zA$a1b2c3d4e5f6g7h8i9j0kLmNoPqRsTuVwXyZ
+Copy that whole string and paste it into your .env file as the value for PASSWORD_HASH=.
+In your .env file you put exactly this (no quotes, no extra spaces, no colon at the end):
+PASSWORD_HASH=pbkdf2:sha256:1000000$a6UYcfFz8bK9mN1pQ2rS3tU4vW5xY6zA$a1b2c3d4e5f6g7h8i9j0kLmNoPqRsTuVwXyZ
+
+That exact plain-text password you put inside the quotes is the one you must type when the login page asks for the password.

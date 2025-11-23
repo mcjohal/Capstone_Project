@@ -5,20 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}My Portfolio{% endblock %} | Capstone Project</title>
 
-    <!-- Bootswatch Quartz Theme -->
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.3.3/quartz/bootstrap.min.css"
           crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-    <!-- Custom CSS -->
     <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
 
     {% block extra_css %}{% endblock %}
 
-    <!-- THIS IS THE FIX: Remove default body margin/padding -->
     <style>
         html, body {
             height: 100%;
@@ -39,7 +35,6 @@
 </head>
 <body>
 
-<!-- Navbar now touches the very top -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
     <div class="container">
         <a class="navbar-brand fw-bold" href="{{ url_for('index') }}">
@@ -71,20 +66,27 @@
                         <i class="bi bi-gear"></i> Settings
                     </a>
                 </li>
-                <!-- NEW: LinkedIn Icon Link -->
+                <li class="nav-item ms-2">
+                    {% if session.get('authenticated') %}
+                        <a class="btn btn-outline-danger btn-sm mt-1" href="{{ url_for('logout') }}">
+                            <i class="bi bi-box-arrow-right"></i> Logout
+                        </a>
+                    {% else %}
+                        <a class="btn btn-outline-light btn-sm mt-1" href="{{ url_for('login') }}">
+                            <i class="bi bi-lock-fill"></i> Login
+                        </a>
+                    {% endif %}
+                </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="https://www.linkedin.com/in/maricruz-johal/" target="_blank" rel="noopener" title="LinkedIn Profile">
+                    <a class="nav-link" href="https://www.linkedin.com/in/britt-rios-ellis-58597119/" target="_blank" rel="noopener" title="LinkedIn Profile">
                         <i class="bi bi-linkedin"></i>
                     </a>
                 </li>
-            </ul>
-
             </ul>
         </div>
     </div>
 </nav>
 
-<!-- Content area -->
 <div class="container flex-grow-1 mt-4">
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
@@ -100,7 +102,6 @@
     {% block content %}{% endblock %}
 </div>
 
-<!-- Footer -->
 <footer class="py-4 bg-dark text-white-50 text-center border-top">
     <div class="container">
         <small>© 2025 CIS — Capstone Project</small>
@@ -111,22 +112,59 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 {% block scripts %}{% endblock %}
+
 {% block extra_js %}
-<script src="https://cdn.tinymce.com/6/tinymce.min.js" referrerpolicy="origin"></script>
 <script>
-  tinymce.init({
-    selector: '#description-editor',
-    height: 500,
-    plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount linkchecker',
-    toolbar: 'undo redo | blocks | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media | removeformat | code',
-    content_style: "body { font-family: -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif; font-size: 16px; }",
-    branding: false,
-    menubar: false,
-    statusbar: true,
-    resize: true,
-    // Optional: allow only safe tags if you're paranoid
-    // valid_elements: '*[*]'
+(function () {
+  function descLen() {
+    var ta = document.getElementById('description-editor');
+    return (ta && ta.value ? ta.value.trim().length : 0);
+  }
+
+  function validateForm() {
+    var fileInput = document.getElementById('image_file');
+    var urlEl     = document.getElementById('image_url');
+    var titleEl   = document.getElementById('title');
+    var webEl     = document.getElementById('website_url');
+    var ghEl      = document.getElementById('github_url');
+    var btn       = document.getElementById('submitBtn');
+
+    if (!btn) return;
+
+    var hasImage = (fileInput && fileInput.files && fileInput.files.length > 0) ||
+                   ((urlEl && urlEl.value || '').trim() !== '');
+
+    var title   = (titleEl && titleEl.value || '').trim();
+    var website = (webEl  && webEl.value  || '').trim();
+    var github  = (ghEl   && ghEl.value   || '').trim();
+
+    var len = descLen();
+    var meetsMin = len >= 100;
+
+    var counter = document.getElementById('charCount');
+    var warning = document.getElementById('charWarning');
+    if (counter) counter.textContent = len;
+    if (counter) counter.style.color = meetsMin ? '#198754' : '#dc3545';
+    if (warning) warning.style.display = meetsMin ? 'none' : 'inline';
+
+    btn.disabled = !(hasImage && title && website && github && meetsMin);
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    if (!document.getElementById('submitBtn')) return;
+
+    var ids = ['image_file','image_url','title','website_url','github_url','description-editor'];
+    ids.forEach(function (id) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      (id === 'image_file' ? el.addEventListener('change', validateForm)
+                           : el.addEventListener('input', validateForm));
+    });
+
+    // Run once after DOM paints so initial state is correct
+    requestAnimationFrame(validateForm);
   });
+})();
 </script>
 {% endblock %}
 
