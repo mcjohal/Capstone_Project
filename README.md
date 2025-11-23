@@ -1,12 +1,19 @@
-Password Instructions
+1. Clone the Project
+2. pip install -r requirements.txt
+3. Setup password hash
+4. Add your projects
+5. Deploy the application
+
+________________________________________________
+
+Password Hash Instructions
 
 
 Open your terminal/command prompt in the same folder as your Flask project.
 Make sure you’re in the same Python environment where Flask is installed (the one you use to run python app.py).
 Paste these two lines and hit Enter:
 
-python -c "from werkzeug.security import generate_password_hash; 
-print(generate_password_hash('YourStrongPasswordHere', method='pbkdf2:sha256'))"
+python -c "from werkzeug.security import generate_password_hash; print(generate_password_hash('Capstone2025Theater!', method='pbkdf2:sha256', salt_length=16))"
 
 → Replace 'YourStrongPasswordHere' with whatever password you actually want (e.g. Capstone2025!Theater).
 
