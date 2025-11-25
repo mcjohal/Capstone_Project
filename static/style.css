@@ -35,4 +35,5 @@ body { padding-top: 56px; }
     border-radius: 50%;
     object-fit: cover;
     object-position: top center;
+    filter: blur(.75px);
 }
