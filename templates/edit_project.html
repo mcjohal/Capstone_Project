@@ -60,9 +60,7 @@
         <div class="mb-4">
             <label class="form-label fw-bold">Description <span class="text-danger">*</span></label>
             
-            <textarea name="description" id="description-editor" class="form-control" rows="12">
-                {{ plain_description or project.description }}
-            </textarea>
+            <textarea name="description" id="description-editor" class="form-control" rows="12">{{ plain_description or project.description }}</textarea>
 
             <div class="mt-2">
                 <small>

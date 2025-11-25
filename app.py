@@ -282,8 +282,10 @@ def edit_project(project_id):
         title = request.form.get('title', '').strip()
         website_url = request.form.get('website_url', '').strip()
         github_url = request.form.get('github_url', '').strip()
-        raw_description = request.form.get('description') or ''
-        # Convert newlines to <br> for line breaks (no trailing \n to avoid accumulation)
+        raw_description = (request.form.get('description') or '').strip()
+        # 1. Normalize Windows line endings (\r\n) to standard (\n)
+        raw_description = raw_description.replace('\r\n', '\n')
+        # 2. Convert standard newlines to <br>
         raw_description = raw_description.replace('\n', '<br>')
         safe_description = clean_description(raw_description)
 
@@ -311,9 +313,11 @@ def edit_project(project_id):
 
     # For GET: Prepare editable description (convert <br> back to \n, handling legacy <br>\n)
     plain_description = project['description']
-    # Handle legacy format by removing \n after <br>
+    # Cleanup: Normalize existing <br> tags combined with newlines
+    plain_description = plain_description.replace('<br>\r\n', '<br>')
     plain_description = plain_description.replace('<br>\n', '<br>')
-    # Now convert all <br> variants to \n
+
+    # Convert all <br> variants to \n for the editor
     plain_description = re.sub(r'<br\s*/?\s*>', '\n', plain_description, flags=re.IGNORECASE)
     return render_template('edit_project.html', project=project, plain_description=plain_description)  # config from processor
 
