@@ -1,4 +1,4 @@
-1. Clone the Project
+1. Select Code and Download ZIP
 2. pip install -r requirements.txt
 3. Setup password hash
 4. Add your projects
